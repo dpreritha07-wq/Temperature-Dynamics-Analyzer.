@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ThermoTrack | Temperature Dynamics Analyzer</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-icon">◉</span> ThermoTrack</div>
+    <span class="tag">FIRST-ORDER ODE ANALYZER</span>
+  </header>
+  <main class="container">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">TEMPERATURE DYNAMICS LAB</p>
+        <h1>Understand how<br><span>temperature changes.</span></h1>
+        <p class="intro">Model cooling and warming with Newton’s Law of Cooling. Adjust the parameters and explore the response over time.</p>
+      </div>
+      <div class="hero-mark"><div class="thermometer">🌡️</div><div class="orbit"></div></div>
+    </section>
+    <section class="layout">
+      <form id="modelForm" class="panel controls">
+        <div class="panel-heading"><div><p class="eyebrow">MODEL INPUTS</p><h2>Set your conditions</h2></div><span class="step">01</span></div>
+        <label>Initial object temperature <span>°C</span><input id="initial" type="number" value="90" step="any" required></label>
+        <label>Ambient temperature <span>°C</span><input id="ambient" type="number" value="25" step="any" required></label>
+        <label>Cooling constant (k) <span>min⁻¹</span><input id="k" type="number" value="0.1" min="0" step="any" required></label>
+        <label>Simulation duration <span>minutes</span><input id="duration" type="number" value="30" min="0.1" step="any" required></label>
+        <label>Time interval <span>minutes</span><select id="step"><option value="1">1 minute</option><option value="2">2 minutes</option><option value="5">5 minutes</option></select></label>
+        <button type="submit" class="primary">Run simulation <span>↗</span></button>
+        <p id="error" class="error" role="alert"></p>
+      </form>
+      <div class="results">
+        <section class="metric-row">
+          <div class="metric panel"><p>INITIAL TEMP.</p><strong id="metricInitial">90.0<span>°C</span></strong><small>At time zero</small></div>
+          <div class="metric panel"><p>FINAL TEMP.</p><strong id="metricFinal">28.2<span>°C</span></strong><small>At end of simulation</small></div>
+          <div class="metric panel"><p>TREND</p><strong id="metricTrend" class="trend">Cooling</strong><small>Based on ambient temperature</small></div>
+        </section>
+        <section class="panel chart-panel">
+          <div class="panel-heading"><div><p class="eyebrow">LIVE RESPONSE</p><h2>Temperature vs. time</h2></div><span class="step">02</span></div>
+          <div class="chart-wrap"><canvas id="temperatureChart"></canvas></div>
+          <div class="chart-foot"><span><i class="dot"></i> Model temperature</span><span id="durationLabel">0–30 minutes</span></div>
+        </section>
+        <section class="panel formula-panel">
+          <div><p class="eyebrow">MATHEMATICAL MODEL</p><h2>Newton’s Law of Cooling</h2></div>
+          <div class="formula">T(t) = T<sub>a</sub> + (T<sub>0</sub> − T<sub>a</sub>)e<sup>−kt</sup></div>
+          <p>Assumes a constant ambient temperature and a constant heat-transfer coefficient.</p>
+        </section>
+      </div>
+    </section>
+    <section class="panel table-panel">
+      <div class="panel-heading"><div><p class="eyebrow">NUMERICAL OUTPUT</p><h2>Simulation data</h2></div><span class="step">03</span></div>
+      <div class="table-scroll"><table><thead><tr><th>Time (min)</th><th>Temperature (°C)</th><th>Difference from ambient (°C)</th></tr></thead><tbody id="dataRows"></tbody></table></div>
+    </section>
+    <footer>ThermoTrack · Academic prototype · First-order ordinary differential equation</footer>
+  </main>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
